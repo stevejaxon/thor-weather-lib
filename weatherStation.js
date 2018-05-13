@@ -1,7 +1,9 @@
-const driver = require('bigchaindb-driver');
+// TODO figure out how to do this correctly
+const Orm = require('bigchaindb-orm').default;
 
-module.exports = class WeatherStation {
-    constructor(_elevation, _id, _latitude, _longitude, _name, _region, _unitaryAuthArea) {
+module.exports = class WeatherStation extends Orm {
+    constructor(apiUrl, _elevation, _id, _latitude, _longitude, _name, _region, _unitaryAuthArea, _assetId) {
+        super(apiUrl);
         this.elevation = _elevation;
         this.id = _id;
         this.latitude = _latitude;
@@ -9,34 +11,37 @@ module.exports = class WeatherStation {
         this.name = _name;
         this.region = _region;
         this.unitaryAuthArea = _unitaryAuthArea;
-        this.assetId = null;
+        this.assetId = _assetId;
+        this.define("myModel", "https://schema.org/v1/myModel");
     }
 
-    async register(connection, ownerKeyPair) {
-        console.log(this);
-        let registerTx = driver.Transaction.makeCreateTransaction(
-            this._toAsset(),
-            null,
-
-            // A transaction needs an output
-            [ driver.Transaction.makeOutput(
-                driver.Transaction.makeEd25519Condition(ownerKeyPair.publicKey))
-            ],
-            ownerKeyPair.publicKey
-        );
-
-        let signedRegisterTx = driver.Transaction.signTransaction(registerTx, ownerKeyPair.privateKey);
-        console.log('about to create the asset');
-        try {
-            let result = await connection.postTransactionCommit(signedRegisterTx);
-            console.log('created the asset');
-            console.log('the result: ', result);
-            console.log('the signed tx: ', signedRegisterTx);
-            this.assetId = signedRegisterTx.id;
-        } catch (e) {
-            console.log(e)
+    async register(ownerKeyPair) {
+        if(this.assetId) {
+            let asset = await this.models.myModel.create({
+                keypair: ownerKeyPair,
+                data: this._toAsset()
+            });
+            this.assetId = asset.id;
         }
+    }
 
+    async recordReadings(ownerKeyPair, weatherData) {
+        let asset = await this._getAsset();
+        let result = await assets.append({
+            toPublicKey: ownerKeyPair.publicKey,
+            keypair: ownerKeyPair,
+            data: weatherData
+        });
+    }
+
+    async getAllWeatherDataReadings() {
+        let asset = await this._getAsset();
+        console.log(asset);
+    }
+
+    async _getAsset() {
+        let assets = await this.models.myModel.retrieve(this.assetId);
+        return assets[0];
     }
 
     _toAsset() {
