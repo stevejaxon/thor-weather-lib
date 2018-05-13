@@ -1,5 +1,6 @@
 module.exports = class WeatherData {
-    constructor(_feelsLikeTemperature, _windGust, _windDirection, _windSpeed, _screenRelativeHumidity, _temperature, _visibility, _maxUVIndex, _weatherType, _precipitationProbability) {
+    constructor(_readingTimestamp, _feelsLikeTemperature, _windGust, _windDirection, _windSpeed, _screenRelativeHumidity, _temperature, _visibility, _maxUVIndex, _weatherType, _precipitationProbability) {
+        this.readingTimestamp = _readingTimestamp;
         this.feelsLikeTemperature = _feelsLikeTemperature;
         this.windGust = _windGust;
         this.windDirection = _windDirection;

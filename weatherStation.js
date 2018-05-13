@@ -36,7 +36,13 @@ module.exports = class WeatherStation extends Orm {
 
     async getAllWeatherDataReadings() {
         let asset = await this._getAsset();
-        console.log(asset);
+        let data = asset.transactionHistory;
+        let weatherReadings = [];
+        data.forEach((element) => {
+            if (element.operation === 'TRANSFER') {
+                weatherReadings.push(element.metadata);
+            }
+        });
     }
 
     async _getAsset() {
