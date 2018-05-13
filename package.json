@@ -1,0 +1,28 @@
+{
+  "name": "thor-weather-lib",
+  "version": "0.0.1",
+  "description": "A library for interacting with the dectralised Thor weather blockchain",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevejaxon/thor-weather-lib.git"
+  },
+  "keywords": [
+    "blockchain",
+    "nodejs",
+    "bigchaindb",
+    "weather-tech"
+  ],
+  "author": "SteveJaxon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stevejaxon/thor-weather-lib/issues"
+  },
+  "homepage": "https://github.com/stevejaxon/thor-weather-lib#readme",
+  "dependencies": {
+    "bigchaindb-driver": "^4.0.0"
+  }
+}
