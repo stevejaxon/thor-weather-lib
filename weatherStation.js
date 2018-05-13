@@ -27,7 +27,7 @@ module.exports = class WeatherStation extends Orm {
 
     async recordReadings(ownerKeyPair, weatherData) {
         let asset = await this._getAsset();
-        let result = await assets.append({
+        let result = await asset.append({
             toPublicKey: ownerKeyPair.publicKey,
             keypair: ownerKeyPair,
             data: weatherData
