@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/stevejaxon/thor-weather-lib#readme",
   "dependencies": {
-    "bigchaindb-driver": "^4.0.0"
+    "bigchaindb-driver": "^4.0.0",
+    "bip39": "^2.5.0",
+    "dotenv": "^5.0.1"
   }
 }
